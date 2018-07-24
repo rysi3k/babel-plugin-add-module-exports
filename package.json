@@ -1,10 +1,10 @@
 {
   "name": "babel-plugin-add-module-exports",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Fix babel/babel#2212",
-  "main": "lib",
+  "main": "src",
   "files": [
-    "lib"
+    "src"
   ],
   "scripts": {
     "start": "mocha --require babel-register --watch",

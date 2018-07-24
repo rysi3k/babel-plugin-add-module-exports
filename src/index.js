@@ -18,6 +18,7 @@ module.exports = ({ template }) => {
         const rootPath = finder.getRootPath()
 
         // HACK: `path.node.body.push` instead of path.pushContainer(due doesn't work in Plugin.post)
+        rootPath.node.body.push(template('for(let k in exports) if (k !== "default") exports.default[k] = exports[k];')());
         rootPath.node.body.push(template('module.exports = exports.default')())
         if (pluginOptions.addDefaultProperty) {
           rootPath.node.body.push(template('module.exports.default = exports.default')())
@@ -71,8 +72,12 @@ class ExportsFinder {
 
   findExports(path, property = 'expression') {
     // Not `exports.anything`, skip
-    if (!path.get(`${property}.left`).node || !path.get(`${property}.left.object`).node) {
-      return
+    try {
+      if (!path.get(`${property}.left`).node || !path.get(`${property}.left.object`).node) {
+        return
+      }
+    } catch(err) {
+      return console.log('ignoring: '+err);
     }
 
     const objectName = path.get(`${property}.left.object.name`).node

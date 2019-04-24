@@ -17,6 +17,7 @@ module.exports = ({ template }) => {
     const rootPath = finder.getRootPath()
 
     // HACK: `path.node.body.push` instead of path.pushContainer(due doesn't work in Plugin.post)
+    rootPath.node.body.push(template('for(let k in exports) if (k !== "default") exports.default[k] = exports[k];')());
     rootPath.node.body.push(template('module.exports = exports.default')())
     if (pluginOptions.addDefaultProperty) {
       rootPath.node.body.push(template('module.exports.default = exports.default')())

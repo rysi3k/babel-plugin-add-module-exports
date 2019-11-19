@@ -9,9 +9,9 @@ module.exports = ({ template }) => {
     AssignmentExpression(path) {
       if (path.get('left').matchesPattern('exports.default')) {
         const finder = new ExportsFinder(path)
-        if (!finder.isOnlyExportsDefault()) {
-          return
-        }
+        // if (!finder.isOnlyExportsDefault()) {
+        //  return
+        // }
         if (finder.isAmd()) {
           return
         }
